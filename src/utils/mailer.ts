@@ -5,7 +5,6 @@ export async function sendLoginEmail({email, url, token}: {
     url: string;
     token: string;
 }) {
-
     const testAccount = await nodemailer.createTestAccount()
     const transporter = nodemailer.createTransport({
         host: 'smtp.ethereal.email',
@@ -28,5 +27,4 @@ export async function sendLoginEmail({email, url, token}: {
     })
 
     console.log(`Preview URL: ${nodemailer.getTestMessageUrl(info)}`)
-
 }
