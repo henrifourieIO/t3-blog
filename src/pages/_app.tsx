@@ -49,7 +49,7 @@ export default withTRPC<AppRouter>({
           return {
             ...ctx.req.headers,
             "x-ssr": "1",
-            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Origin": "*"
           };
         }
         return {};
