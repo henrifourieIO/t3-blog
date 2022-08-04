@@ -7,67 +7,73 @@ import { CreateUserSchema } from "../schema/user.schema";
 import { trpc } from "../utils/trpc";
 
 function VerifyToken({ hash }: { hash: string }) {
-  const router = useRouter();
-  const { data, isLoading } = trpc.useQuery([
-    "users.verify-otp",
-    {
-      hash,
-    },
-  ]);
+	const router = useRouter();
+	const { data, isLoading } = trpc.useQuery([
+		"users.verify-otp",
+		{
+			hash,
+		},
+	]);
 
-  if (isLoading) {
-    return <p>Verifying...</p>;
-  }
+	if (isLoading) {
+		return <p>Verifying...</p>;
+	}
 
-  router.push(data?.redirect.includes("login") 
-    ? "/" 
-    : data?.redirect 
-    || "/"
-  );
+	router.push(data?.redirect.includes("login") ? "/" : data?.redirect || "/");
 
-  return <p>Redirecting...</p>;
+	return <p>Redirecting...</p>;
 }
 
 function LoginForm() {
-  const { handleSubmit, register } = useForm<CreateUserSchema>();
-  const [success, setSuccess] = useState(false);
-  const router = useRouter();
-  const { mutate, error } = trpc.useMutation(["users.request-otp"], {
-    onSuccess: () => {
-      setSuccess(true);
-    },
-  });
+	const { handleSubmit, register } = useForm<CreateUserSchema>();
+	const [success, setSuccess] = useState<string | false>();
+	const router = useRouter();
+	const { mutate, error } = trpc.useMutation(["users.request-otp"], {
+		onSuccess: (e) => {
+      const emailLink = e;
+			setSuccess(emailLink);
+		},
+	});
 
-  const onSubmit = (values: CreateUserSchema) => {
-    mutate({...values, redirect: router.asPath});
-  };
+	const onSubmit = (values: CreateUserSchema) => {
+		mutate({ ...values, redirect: router.asPath });
+	};
 
-  const hash = router.asPath.split("#token=")[1];
+	const hash = router.asPath.split("#token=")[1];
 
-  if (hash) {
-    return <VerifyToken hash={hash} />;
-  }
+	if (hash) {
+		return <VerifyToken hash={hash} />;
+	}
 
-  return (
-    <>
-      <form className="newForm" onSubmit={handleSubmit(onSubmit)}>
-        {error && error.message}
+	return (
+		<>
+			<form className="newForm" onSubmit={handleSubmit(onSubmit)}>
+				{error && error.message}
 
-        {success && <p>Check your email</p>}
-        <h1>Login</h1>
+				{success && (
+					<a
+						style={{ textDecoration: "underline" }}
+						href={success}
+						// target="_blank"
+						// rel="noreferrer"
+					>
+						Check your email
+					</a>
+				)}
+				<h1>Login</h1>
 
-        <input
-          type="email"
-          placeholder="john.doe@gmail.com"
-          {...register("email")}
-        />
-        <br />
-        <button type="submit">Login</button>
-      </form>
+				<input
+					type="email"
+					placeholder="john.doe@gmail.com"
+					{...register("email")}
+				/>
+				<br />
+				<button type="submit">Login</button>
+			</form>
 
-      <Link href="/register">Register</Link>
-    </>
-  );
+			<Link href="/register">Register</Link>
+		</>
+	);
 }
 
 export default LoginForm;

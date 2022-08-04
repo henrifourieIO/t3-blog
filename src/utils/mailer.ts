@@ -25,7 +25,7 @@ export async function sendLoginEmail({email, url, token}: {
         <a href="${url}/login#token=${token}">Login</a>
         `
     })
-    const res = `Preview URL: ${nodemailer.getTestMessageUrl(info)}`;
+    const res = nodemailer.getTestMessageUrl(info);
 
     return res
 }
