@@ -73,13 +73,13 @@ export const userRouter = createRouter()
       });
 
       // Send email to user
-      await sendLoginEmail({
+      const emailRes = await sendLoginEmail({
         token: encode(`${token.id}:${user.email}`),
         url: baseUrl,
         email: user.email,
       });
 
-      return true;
+      return emailRes;
     },
   })
   .query("verify-otp", {
