@@ -50,7 +50,7 @@ function LoginForm() {
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form className="newForm" onSubmit={handleSubmit(onSubmit)}>
         {error && error.message}
 
         {success && <p>Check your email</p>}

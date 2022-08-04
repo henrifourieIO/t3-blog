@@ -18,8 +18,8 @@ function RegisterPage() {
   };
 
   return (
-    <>
-      <form onSubmit={handleSubmit(onSubmit)}>
+    <div className="wrapper col">
+      <form className="newForm" onSubmit={handleSubmit(onSubmit)}>
         {error && error.message}
         <h1>Register</h1>
 
@@ -35,7 +35,7 @@ function RegisterPage() {
       </form>
 
       <Link href="/login">Login</Link>
-    </>
+    </div>
   );
 }
 
