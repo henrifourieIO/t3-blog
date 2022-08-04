@@ -4,11 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "yarn generate & next build",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "generate": "npx prisma generate",
-    "push": "npx prisma db push"
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@prisma/client": "^4.1.1",
@@ -37,6 +36,7 @@
     "@types/react-dom": "18.0.6",
     "eslint": "8.20.0",
     "eslint-config-next": "12.2.3",
+    "prisma": "^4.1.1",
     "typescript": "4.7.4"
   }
 }
