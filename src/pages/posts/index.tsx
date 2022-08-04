@@ -17,7 +17,10 @@ function PostListingPage() {
 			<div>
 				<h1>Posts</h1>
 				<div className="postWrapper">
-					{data?.map((post) => {
+					{data?.map((post: {
+						id: any;
+						title: string;
+					}) => {
 						return (
 							<article className="post" key={post.id}>
 								<h4>{post.title}</h4>
